@@ -1,0 +1,70 @@
+name: zedis
+base: core26
+version: '0.15.1'
+title: Zedis
+icon: snap/gui/zedis.png
+summary: A native Redis and Valkey desktop client
+description: |
+  Zedis is a GPU-accelerated desktop client for Redis and Valkey. Browse
+  and edit keys, inspect metrics and memory, run commands, and manage
+  standalone, Sentinel and cluster connections with TLS and SSH tunnels.
+  Import connection profiles, compare databases and export data.
+license: Apache-2.0
+grade: stable
+confinement: strict
+website: https://zedis.net
+source-code:
+  - https://github.com/vicanso/zedis
+  - https://github.com/sidalit/zedis-snap
+issues:
+  - https://github.com/vicanso/zedis/issues
+  - https://github.com/sidalit/zedis-snap/issues
+contact: https://github.com/sidalit/zedis-snap/issues
+
+platforms:
+  amd64:
+  arm64:
+
+apps:
+  zedis:
+    command: bin/zedis
+    extensions: [gnome]
+    plugs:
+      - home
+      - network
+      - network-bind
+      - removable-media
+      - ssh-keys
+
+parts:
+  zedis:
+    plugin: rust
+    source: https://github.com/vicanso/zedis.git
+    source-tag: v$SNAPCRAFT_PROJECT_VERSION
+    source-depth: 1
+    rust-channel: '1.98.1'
+    rust-features: [mimalloc]
+    build-packages:
+      - build-essential
+      - pkg-config
+      - cmake
+      - libfontconfig-dev
+      - libxkbcommon-dev
+      - libxkbcommon-x11-dev
+      - libxcb-xfixes0-dev
+      - libwayland-dev
+      - libdbus-1-dev
+      - libssl-dev
+      - patch
+    stage-packages:
+      - libxkbcommon-x11-0
+    override-pull: |
+      craftctl default
+      patch -p1 < "$CRAFT_PROJECT_DIR/snap/local/snap-integration.patch"
+    override-build: |
+      craftctl default
+      install -Dm644 "$CRAFT_PROJECT_DIR/snap/gui/zedis.png" \
+        "$CRAFT_PART_INSTALL/usr/share/icons/hicolor/256x256/apps/zedis_zedis.png"
+      install -Dm644 LICENSE "$CRAFT_PART_INSTALL/usr/share/doc/zedis/LICENSE"
+      install -Dm644 "$CRAFT_PROJECT_DIR/snap/local/licenses/JetBrainsMono-OFL.txt" \
+        "$CRAFT_PART_INSTALL/usr/share/doc/zedis/JetBrainsMono-OFL.txt"

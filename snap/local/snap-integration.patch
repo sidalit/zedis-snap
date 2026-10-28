@@ -1,0 +1,58 @@
+--- a/src/constants.rs
++++ b/src/constants.rs
+@@ -22,7 +22,7 @@
+ /// `Icon=` / `StartupWMClass` fields so KDE/GNOME can resolve the name and
+ /// icon. Flatpak overrides this at runtime via `$FLATPAK_ID`
+ /// (`io.github.vicanso.zedis`) — see [`linux_app_id`].
+-pub const APP_ID: &str = "zedis";
++pub const APP_ID: &str = "zedis_zedis";
+
+ /// Wayland/X11 application id for the running process.
+ ///
+--- a/src/root/desktop.rs
++++ b/src/root/desktop.rs
+@@ -125,9 +125,8 @@
+     /// version; the silent startup check stays quiet unless it finds a fresh,
+     /// non-skipped update.
+     pub(crate) fn check_for_updates(&mut self, manual: bool, then_prompt: bool, cx: &mut Context<Self>) {
+-        // App Store builds are updated through the App Store; never self-check or
+-        // self-download (Apple forbids it). Guards every trigger at once.
+-        if is_app_store_build() {
++        // Store packages are updated by their package manager.
++        if is_app_store_build() || std::env::var_os("SNAP").is_some() {
+             return;
+         }
+         if self.desktop.update_task.is_some() {
+--- a/src/views/setting_editor.rs
++++ b/src/views/setting_editor.rs
+@@ -720,7 +720,7 @@
+             // App Store builds update via the App Store — the toggle would
+             // control a check that `check_for_updates` refuses to run, so
+             // hide it alongside the menu entries.
+-            .when(!is_app_store_build(), |this| {
++            .when(!is_app_store_build() && std::env::var_os("SNAP").is_none(), |this| {
+                 this.child(Self::render_setting_row(
+                     cx,
+                     "auto_update_check",
+--- a/src/views/command_palette.rs
++++ b/src/views/command_palette.rs
+@@ -594,7 +594,7 @@
+             Some(i18n_command_palette(cx, "about_keywords")),
+             AppChore::About,
+         )];
+-        if !is_app_store_build() {
++        if !is_app_store_build() && std::env::var_os("SNAP").is_none() {
+             chores.push((i18n_sidebar(cx, "check_updates"), None, AppChore::CheckUpdates));
+         }
+         chores.push((i18n_sidebar(cx, "open_logs"), None, AppChore::OpenLogs));
+--- a/src/views/title_bar.rs
++++ b/src/views/title_bar.rs
+@@ -285,7 +285,7 @@
+                 },
+             )
+             // App Store builds update via the App Store — hide the manual check.
+-            .when(!is_app_store_build(), |this| {
++            .when(!is_app_store_build() && std::env::var_os("SNAP").is_none(), |this| {
+                 this.menu_with_icon(
+                     i18n_sidebar(cx, "check_updates"),
+                     Icon::new(CustomIconName::RefreshCw),

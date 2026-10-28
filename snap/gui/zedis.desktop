@@ -1,0 +1,11 @@
+[Desktop Entry]
+Name=Zedis
+Exec=zedis %u
+Icon=${SNAP}/meta/gui/zedis.png
+Type=Application
+Categories=Development;Database;
+MimeType=x-scheme-handler/redis;x-scheme-handler/rediss;
+Comment=A native Redis and Valkey desktop client
+Terminal=false
+StartupWMClass=zedis_zedis
+StartupNotify=true
