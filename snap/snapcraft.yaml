@@ -1,6 +1,6 @@
 name: zedis
 base: core26
-version: '0.15.2'
+version: '0.16.0'
 title: Zedis
 icon: snap/gui/zedis.png
 summary: A native Redis and Valkey desktop client
