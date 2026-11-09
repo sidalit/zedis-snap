@@ -7,5 +7,5 @@ Categories=Development;Database;
 MimeType=x-scheme-handler/redis;x-scheme-handler/rediss;
 Comment=A native Redis and Valkey desktop client
 Terminal=false
-StartupWMClass=zedis_zedis
+StartupWMClass=zedis
 StartupNotify=true

@@ -64,7 +64,7 @@ parts:
     override-build: |
       craftctl default
       install -Dm644 "$CRAFT_PROJECT_DIR/snap/gui/zedis.png" \
-        "$CRAFT_PART_INSTALL/usr/share/icons/hicolor/256x256/apps/zedis_zedis.png"
+        "$CRAFT_PART_INSTALL/usr/share/icons/hicolor/256x256/apps/zedis.png"
       install -Dm644 LICENSE "$CRAFT_PART_INSTALL/usr/share/doc/zedis/LICENSE"
       install -Dm644 "$CRAFT_PROJECT_DIR/snap/local/licenses/JetBrainsMono-OFL.txt" \
         "$CRAFT_PART_INSTALL/usr/share/doc/zedis/JetBrainsMono-OFL.txt"

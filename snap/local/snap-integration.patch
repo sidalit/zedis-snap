@@ -1,14 +1,3 @@
---- a/src/constants.rs
-+++ b/src/constants.rs
-@@ -22,7 +22,7 @@
- /// `Icon=` / `StartupWMClass` fields so KDE/GNOME can resolve the name and
- /// icon. Flatpak overrides this at runtime via `$FLATPAK_ID`
- /// (`io.github.vicanso.zedis`) — see [`linux_app_id`].
--pub const APP_ID: &str = "zedis";
-+pub const APP_ID: &str = "zedis_zedis";
-
- /// Wayland/X11 application id for the running process.
- ///
 --- a/src/root/desktop.rs
 +++ b/src/root/desktop.rs
 @@ -125,9 +125,8 @@
