@@ -42,7 +42,7 @@ parts:
     source: https://github.com/vicanso/zedis.git
     source-tag: v$SNAPCRAFT_PROJECT_VERSION
     source-depth: 1
-    rust-channel: '1.98.1'
+    rust-channel: stable
     rust-features: [mimalloc]
     build-packages:
       - build-essential
